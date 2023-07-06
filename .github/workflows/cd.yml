@@ -20,6 +20,7 @@ jobs:
         id: set-branch
         run: |
           raw=$(git branch -r --contains ${{ github.ref }})
+          echo $raw
           BRANCH=${raw##*/}
           echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
           echo "Branch is $BRANCH."
