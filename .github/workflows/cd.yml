@@ -1,11 +1,37 @@
+name: PROD-CD
+
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
+
 jobs:
-  test:
+  set-inputs:
     runs-on: [ubuntu-latest]
+    outputs:
+      branch: ${{ steps.set-branch.outputs.branch }}
     steps:
-      - run: echo "TEST"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: 'Set branch for tag'
+        id: set-branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw##*/}
+          echo "::set-output name=branch::$branch"
+          echo "Branch is $branch."
+
+  prod-cd:
+    needs: set-inputs
+    if: ${{ needs.check.outputs.branch == 'master' }} # only run if branch is master
+    uses: ./.github/workflows/cd.yml
+    secrets:
+      GOOGLE_CLOUD_CREDENTIALS: ${{ secrets.PROD_GOOGLE_CLOUD_CREDENTIALS }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_OAUTH }}
+    with:
+      tag: ${{ needs.set-inputs.outputs.tag }}
+      release: ${{ needs.set-inputs.outputs.release }}
+      project: 'netpre-next-prod-43085'
