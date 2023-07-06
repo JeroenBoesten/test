@@ -25,7 +25,7 @@ jobs:
 
   prod-cd:
     needs: set-inputs
-    if: contains(needs.set-inputs.outputs.branch, 'master') # only run if tag is on master
+    if: contains(needs.set-inputs.outputs.branches, 'master') # only run if tag is on master
     runs-on: [ubuntu-latest]
     steps:
       - name: TEST
