@@ -9,7 +9,7 @@ jobs:
   set-inputs:
     runs-on: [ubuntu-latest]
     outputs:
-      branches: ${{ steps.set-branch.outputs.branch }}
+      branches: ${{ steps.set-branch.outputs.branches }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
