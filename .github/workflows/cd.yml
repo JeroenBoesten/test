@@ -19,9 +19,9 @@ jobs:
       - name: 'Set branch for tag'
         id: set-branch
         run: |
-          BRANCHES=$(git branch -r --contains ${{ github.ref }})
-          echo -n "BRANCHES=$BRANCHES" >> $GITHUB_OUTPUT
-          echo -n "Branches are $BRANCHES."
+          BRANCHES=$(git branch -r --contains ${{ github.ref }} | tr -d '\n')
+          echo "BRANCHES=$BRANCHES" >> $GITHUB_OUTPUT
+          echo "Branches are $BRANCHES."
 
   prod-cd:
     needs: set-inputs
