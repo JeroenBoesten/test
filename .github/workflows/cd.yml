@@ -20,8 +20,8 @@ jobs:
         id: set-branch
         run: |
           BRANCHES=$(git branch -r --contains ${{ github.ref }})
-          echo "BRANCHES=$BRANCHES" >> $GITHUB_OUTPUT
-          echo "Branches are $BRANCHES."
+          echo -n "BRANCHES=$BRANCHES" >> $GITHUB_OUTPUT
+          echo -n "Branches are $BRANCHES."
 
   prod-cd:
     needs: set-inputs
