@@ -27,11 +27,7 @@ jobs:
   prod-cd:
     needs: set-inputs
     if: ${{ needs.check.outputs.branch == 'master' }} # only run if branch is master
-    uses: ./.github/workflows/cd.yml
-    secrets:
-      GOOGLE_CLOUD_CREDENTIALS: ${{ secrets.PROD_GOOGLE_CLOUD_CREDENTIALS }}
-      GITHUB_OAUTH: ${{ secrets.GITHUB_OAUTH }}
-    with:
-      tag: ${{ needs.set-inputs.outputs.tag }}
-      release: ${{ needs.set-inputs.outputs.release }}
-      project: 'netpre-next-prod-43085'
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: TEST
+        run: echo "Test"
